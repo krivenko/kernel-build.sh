@@ -38,6 +38,8 @@ Features
 * Run a sequence of steps to upgrade from kernel version `x.y.z1` to `x.y.z2`
   (`minorupdate` command).
 
+*Warning: `initrd` is not supported.*
+
 License
 =======
 
