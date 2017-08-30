@@ -148,6 +148,7 @@ install(){
         V=$(make kernelversion)
         CURRENT_VERSION="${HOSTNAME}-${V}"
         make modules_install
+        depmod --all
 
         # Install a new kernel and System.map
         cp -i System.map "${BOOT_DIR}/System.map-${CURRENT_VERSION}"
