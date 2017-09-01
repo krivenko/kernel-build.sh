@@ -9,6 +9,7 @@ UEFI_BOOTNUM=0000
 UEFI_LABEL="Gentoo Linux"
 BOOT_DEVICE="/dev/nvme0n1"
 BOOT_PARTITION_NUM=1
+EFIVARS_MOUNT_POINT="/sys/firmware/efi/efivars"
 
 HOSTNAME=$(hostname)
 SCRIPT_NAME=$(basename $0)
@@ -164,9 +165,11 @@ install(){
         umount -l "${BOOT_DIR}"
 
         # Update UEFI record
+        mount -o remount,rw ${EFIVARS_MOUNT_POINT}
         efibootmgr -B -b ${UEFI_BOOTNUM} -d ${BOOT_DEVICE} -q
         efibootmgr -c -b ${UEFI_BOOTNUM} -d ${BOOT_DEVICE} -p ${BOOT_PARTITION_NUM} -e 3 \
                    -L "${UEFI_LABEL} ${V}" -l "\\kernel-${CURRENT_VERSION}"
+        mount -o remount,ro ${EFIVARS_MOUNT_POINT}
 
         # Rebuild kernel modules
         emerge -av1 @module-rebuild
