@@ -10,6 +10,7 @@ UEFI_LABEL="Gentoo Linux"
 BOOT_DEVICE="/dev/nvme0n1"
 BOOT_PARTITION_NUM=1
 EFIVARS_MOUNT_POINT="/sys/firmware/efi/efivars"
+INSTALL_KERNEL_COPY="${BOOT_DIR}/efi/boot/bootx64.efi"
 
 HOSTNAME=$(hostname)
 SCRIPT_NAME=$(basename $0)
@@ -154,6 +155,8 @@ install(){
         # Install a new kernel and System.map
         cp -i System.map "${BOOT_DIR}/System.map-${CURRENT_VERSION}"
         cp -i "arch/$(uname -m)/boot/bzImage" "${BOOT_DIR}/kernel-${CURRENT_VERSION}"
+
+        [ ! -z "${INSTALL_KERNEL_COPY}" ] && cp -i "arch/$(uname -m)/boot/bzImage" "${INSTALL_KERNEL_COPY}"
 
         popd
 
